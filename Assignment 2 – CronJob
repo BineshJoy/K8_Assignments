@@ -1,0 +1,37 @@
+Assignment 2 – CronJob
+
+[root@ip-172-31-26-12 04-controllers]# kubectl apply -f cronjob.yaml
+cronjob.batch/batch-job-every-fifteen-minutes created
+
+[root@ip-172-31-26-12 04-controllers]# kubectl get cronjobs -o wide
+NAME                              SCHEDULE             SUSPEND   ACTIVE   LAST SCHEDULE   AGE   CONTAINERS   IMAGES            SELECTOR
+batch-job-every-fifteen-minutes   0,15,30,45 * * * *   False     0        <none>          11m   main         luksa/batch-job   <none>
+
+[root@ip-172-31-26-12 04-controllers]# kubectl get cronjobs --watch
+NAME                              SCHEDULE             SUSPEND   ACTIVE   LAST SCHEDULE   AGE
+batch-job-every-fifteen-minutes   0,15,30,45 * * * *   False     0        <none>          13m
+batch-job-every-fifteen-minutes   0,15,30,45 * * * *   False     1        0s              14m
+
+[root@ip-172-31-26-12 04-controllers]# kubectl get po -o wide
+NAME                                               READY   STATUS      RESTARTS   AGE     IP                NODE                                               NOMINATED NODE   READINESS GATES
+batch-job-every-fifteen-minutes-1652625900-w58js   0/1     Completed   0          18m     192.168.178.225   ip-172-31-28-137.ap-southeast-1.compute.internal   <none>           <none>
+batch-job-every-fifteen-minutes-1652626800-fc29z   0/1     Completed   0          3m30s   192.168.178.226   ip-172-31-28-137.ap-southeast-1.compute.internal   <none>           <none>
+kubia-dm6k5                                        1/1     Running     0          38m     192.168.178.223   ip-172-31-28-137.ap-southeast-1.compute.internal   <none>           <none>
+kubia-gzgwb                                        1/1     Running     0          38m     192.168.178.224   ip-172-31-28-137.ap-southeast-1.compute.internal   <none>           <none>
+kubia-kwjcs                                        1/1     Running     0          38m     192.168.178.222   ip-172-31-28-137.ap-southeast-1.compute.internal   <none>           <none>
+[root@ip-172-31-26-12 04-controllers]#>
+
+[root@ip-172-31-26-12 04-controllers]# kubectl logs batch-job-every-fifteen-minutes-1652625900-w58js
+Sun May 15 14:45:03 UTC 2022 Batch job starting
+Sun May 15 14:47:03 UTC 2022 Finished succesfully
+[root@ip-172-31-26-12 04-controllers]#
+
+
+[root@ip-172-31-26-12 04-controllers]# kubectl delete cronjob batch-job-every-fifteen-minutes
+cronjob.batch "batch-job-every-fifteen-minutes" deleted
+[root@ip-172-31-26-12 04-controllers]# kubectl get cronjobs -o wide
+No resources found in default namespace.
+[root@ip-172-31-26-12 04-controllers]#
+
+
+JOB will execute once but, CronJob will execute repeatedly in the time interval mentioned in the cron.
