@@ -1,5 +1,6 @@
 Assignment 1 – Replica set
 
+
 1)	Kind (ReplicationController & ReplicaSet)
 App: Kubia defined as matchLabels Selector in relicaset. No matchLables selector in ReplcationController. 
 Port not defined in ReplicaSet
