@@ -1,0 +1,9 @@
+Daemon set is using when we need to run something on every pod.
+
+Ex: Monitoring or resource KPI applications needs to run on every pod.    
+
+
+running a cluster storage daemon on every node
+running a logs collection daemon on every node
+running a node monitoring daemon on every node
+
